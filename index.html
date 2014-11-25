@@ -9,32 +9,92 @@
     </head>
     <body>
 
-        <main class="container">
+        <main class="container" ng-app="ReviewApp" ng-controller="ReviewController">
             <section>
-                <img src="img/super-bass-o-matic-76.jpg" alt="product picture" class="product-picture">
-                <h1>The Super Bass-o-Matic '76</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia cumque deserunt ullam repudiandae nisi corporis! Ipsum, ducimus commodi, itaque porro distinctio consequuntur! Autem doloremque numquam nemo ex nulla tempora quis! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde nihil doloribus excepturi quisquam error possimus veritatis facere, commodi cumque ab atque dolore ducimus obcaecati ipsa, impedit! Consequuntur, eligendi iure cumque!</p>
+                <img src="img/TheLastOfUsOST.jpg" alt="product picture" class="product-picture">
+                <h1>The Last of Us</h1>
+                <p>This is a game about survival and zombies. Many great video game review sites gave this game good reviews. There is a virus that is infecting humans and you may hold the cure to humanities salvation. This game has recieved perfect reviews across the board and is being made into a movie. Basically,
+                this may be the best game you may ever play in your entire life. If you dont like this game its fine,
+                i mean, i used to have bad taste too.</p>
             </section>
+            <section id= 'information'>
+                <section id="input">
+                    <h2>Add a Comment</h2>
+                    <form ng-submit="addReview()">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" id="title" class="form-control"
+                                   placeholder="Title" ng-model="newReview.title"/>
+                        </div>
 
-            <section>
-                <h2>Add a Comment</h2>
-                <!--  
-                put a form here for entering a new comment
-                the user must select a rating, and enter a name, title, and comment body
-                before the comment can be saved to the server
-                for the rating selection, use the Angular Bootstrap Rating directive 
-                http://angular-ui.github.io/bootstrap/#/rating
-                their script file is included below
-                -->
-            </section>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" class="form-control"
+                                   placeholder="Your Name" ng-model="newReview.name"/>
+                        </div>
 
-            <section>
-                <h2>Comments</h2>
-                <!-- 
-                display existing comments here
-                each comment should also have UI allowing the user to vote up/down the comment
-                as well as delete it
-                 -->
+                        <div class="form-group">
+                            <label for="body">Comment</label>
+                            <input type="text" id="body" class="form-control"
+                                   placeholder="Comment" ng-model="newReview.body"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="item-rating">Rating</label>
+                            <rating max="5" ng-model="newReview.rating"></rating>
+
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" ng-disabled="inserting" >Add Review</button>
+                            <img src="img/ajax-spinner.gif" alt="loading animation" ng-if="inserting"/>
+                            <!--<progressbar max="max" value="dynamic" ng-if="inserting"><span style="color:black; white-space:nowrap;">Posting Completion</span></progressbar>-->
+                        </div>
+                    </form>
+                </section>
+
+                <section id="comments">
+                    <h2>Comments</h2>
+                    <p>
+                        <button class="btn btn-primary" ng-click="refreshReviews()">Refresh</button>
+                        <img src="img/ajax-spinner.gif" alt="loading animation" ng-if="loading || updating"/>
+                    </p>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Name</th>
+                                <th>Body</th>
+                                <th>Rating</th>
+                                <th>Votes</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="review in reviews">
+                                            <p ng-if = "reviews.length == 0"> Nothing yet :)</p>
+                                <td ng-class="{deleted: review.deleted}">{{review.title}}</td>
+                                <td ng-class="{deleted: review.deleted}">{{review.name}}</td>
+                                <td ng-class="{deleted: review.deleted}">{{review.body}}</td>
+                                <td>
+                                    <rating max="5" ng-model="review.rating" ng-change="updateReview(review)" ng-class="{deleted: review.deleted}" readonly = true></rating>
+                                </td>
+                                <td>
+                                    {{review.votes || 0}}
+                                    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementVotes(review, 1)" 
+                                        ng-class="{deleted: review.deleted}"></span>
+                                    <span class="glyphicon glyphicon-thumbs-down" ng-click="incrementVotes(review, -1)" 
+                                        ng-class="{deleted: review.deleted}"></span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" ng-model="review.deleted" ng-click="deleteReview(review)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </section>
             </section>
 
         </main>

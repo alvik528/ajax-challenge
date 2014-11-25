@@ -1,13 +1,37 @@
 @import url(http://fonts.googleapis.com/css?family=Ubuntu:400,500);
+@import url(http://fonts.googleapis.com/css?family=Gloria+Hallelujah);
 
 body {
-    font-family: 'Ubuntu', 'Helvetica Neue', 'Helvetica', sans-serif;
+    font-family: 'Gloria Hallelujah', 'Helvetica Neue', 'Helvetica', sans-serif;
     font-weight: 400;
+    background-image: url(../img/background.jpg); 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #B00000;
 }
 
 .product-picture {
     float: left;
-    height: 130px;
+    height: 200px;
+    width: 200px;
     margin-right: 10px;
+    padding: 1em;
 }
+#information {
+	background-image: url(../img/paper.jpg);
+	padding: 1em;
+	opacity: 0.9;
+}
+
+h1 {
+	font-size: 72px;
+	text-align: center;
+	font-family: 'Helvetica Neue';
+}
+.deleted {
+    text-decoration: line-through;
+    color: #999;
+}
+
 
